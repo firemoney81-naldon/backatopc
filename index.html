@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자동차 보험 상세 정보 목록</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better Korean readability and modern look */
+        body {
+            font-family: "Inter", "Malgun Gothic", "Nanum Gothic", sans-serif;
+            background-color: #f7f9fb;
+        }
+        .link-item {
+            transition: all 0.3s ease;
+        }
+        .link-item:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        /* Style for the link (anchor tag) to ensure the whole block is clickable and styled */
+        .full-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+        .full-link:hover .link-text {
+            color: #1d4ed8; /* Blue-700 on hover */
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="max-w-4xl mx-auto p-6 md:p-10">
+    <header class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-2">🚗 자동차 보험 및 렌터카 정보 백링크</h1>
+        <p class="text-lg text-gray-600">제공된 키워드와 URL에 대한 상세 설명 및 연결 링크 목록입니다. 순서는 무작위로 표시됩니다.</p>
+    </header>
+
+    <div id="links-container" class="space-y-6">
+        <!-- Links will be injected here by JavaScript -->
+    </div>
+
+    <footer class="text-center mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm">
+        <p>본 페이지는 정보 제공 목적으로 생성되었으며, 모든 링크는 무작위 순서로 표시됩니다.</p>
+    </footer>
+</div>
+
+<script>
+    // 1. Data Structure with Keywords, URLs, and Descriptions
+    const linksData = [
+        { keyword: "자동차보험료계산", url: "http://bohumpromotiona.cafe24.com/", description: "운전자에게 가장 합리적인 보험료를 실시간으로 간편하게 확인하고 비교 분석하여 맞춤형 설계를 시작해 보세요." },
+        { keyword: "자동차보험할증기준", url: "http://bohumpromotionb.cafe24.com/", description: "보험료가 인상되는 할증 기준과 사고 시 대처 방안, 그리고 할인/할증 등급의 상세한 변화 기준을 정확히 알아보세요." },
+        { keyword: "자동차보험료1년", url: "http://bohumpromotionc.cafe24.com/", description: "1년 동안의 자동차보험료 총액을 미리 예측하고 다양한 할인 특약을 적용하여 최저가 견적을 지금 바로 확인해 볼 수 있습니다." },
+        { keyword: "자동차보험비교견적", url: "http://bohumpromotiond.cafe24.com/", description: "국내 주요 보험사들의 자동차보험 상품을 한눈에 비교하고 분석하여 가장 저렴하고 보장 조건이 좋은 상품을 선택하세요." },
+        { keyword: "20대자동차보험료", url: "http://bohumpromotione.cafe24.com/", description: "사회 초년생과 20대 운전자를 위한 합리적인 보험료 산출 방법과 저렴하게 가입할 수 있는 특별 할인 혜택을 안내받으세요." },
+        { keyword: "자동차보험견적", url: "http://bohumpromotionf.cafe24.com/", description: "내 차량 정보와 운전 경력에 기반한 정확한 자동차보험 견적을 받아보고, 불필요한 지출 없이 꼭 필요한 보장만 설계해 보세요." },
+        { keyword: "자동차보험추천", url: "http://bohumpromotiong.cafe24.com/", description: "전문가가 엄선한 보장 범위와 가격 경쟁력을 모두 갖춘 자동차보험 상품을 추천받고, 후회 없는 선택을 지금 바로 경험하세요." },
+        { keyword: "자동차보험나이", url: "http://bohumpromotionh.cafe24.com/", description: "연령별 보험료 산정 기준과 만 26세 특약 등 나이별로 달라지는 보험료를 확인하고, 가장 유리한 조건을 찾아보세요." },
+        { keyword: "다이렉트자동차보험료", url: "http://bohumpromotioni.cafe24.com/", description: "중간 유통 과정을 줄여 일반 보험 대비 평균 15% 이상 저렴한 다이렉트 자동차보험의 실제 보험료를 계산하고 가입하세요." },
+        { keyword: "만26세 자동차보험", url: "http://bohumpromotionk.cafe24.com/", description: "만 26세 운전자가 가입할 수 있는 특약과 할인 혜택을 집중적으로 분석하고, 가족 한정 대비 유리한 보험료를 확인해 보세요." },
+        { keyword: "신규 자동차보험", url: "https://bohumpromotionl.cafe24.com/", description: "처음 자동차보험에 가입하는 분들을 위해 복잡한 용어 설명부터 가입 절차, 필수 보장까지 단계별로 상세히 안내해 드립니다." },
+        { keyword: "자동차보험비교견적사이트", url: "https://bohumpromotionm.cafe24.com/", description: "여러 보험사의 견적을 단 한 번의 입력으로 실시간 비교할 수 있는 전문 견적 사이트에서 최적의 상품을 찾아보세요." },
+        { keyword: "자동차 책임보험 가입", url: "http://bohumpromotionn.cafe24.com/", description: "법적으로 의무화된 자동차 책임보험의 필수 가입 정보, 보장 내용, 그리고 미가입 시 발생하는 과태료 기준을 확인하세요." },
+        { keyword: "전기차보험료", url: "http://bohumpromotiono.cafe24.com/", description: "일반 차량과는 다른 전기차만의 특별한 보험료 산정 기준과 전용 특약, 그리고 배터리 보장 내용 등을 자세히 알아보세요." },
+        { keyword: "자동차보험순위", url: "https://bohumpromotionp.cafe24.com/", description: "매년 갱신되는 국내 자동차보험 회사들의 소비자 만족도, 가격 경쟁력, 사고 처리 능력 등을 기준으로 한 순위를 확인하세요." },
+        { keyword: "20살자동차보험료", url: "https://bohumpromotionq.cafe24.com/", description: "만 20세 초보 운전자를 위한 가장 저렴한 보험 가입 방법과 보험료 부담을 줄여주는 다양한 특약 정보를 얻어 가세요." },
+        { keyword: "자동차보험 경력인정", url: "https://bohumpromotionr.cafe24.com/", description: "군 운전 경력, 외국 보험 가입 경력 등 숨어있는 운전 경력을 인정받아 보험료를 할인받는 방법을 상세히 확인해 보세요." },
+        { keyword: "자동차보험조회", url: "https://bohumpromotions.cafe24.com/", description: "현재 가입된 자동차보험의 보장 내용, 만기일, 특약 사항 등을 간편하게 조회하고 다음 갱신을 위한 정보를 미리 준비하세요." },
+        { keyword: "자동차보험종류", url: "https://bohumpromotiont.cafe24.com/", description: "대인배상, 대물배상, 자기차량손해(자차) 등 복잡한 자동차보험의 종류별 보장 범위와 특장점을 쉽게 이해하고 설계하세요." },
+        { keyword: "자차보험가입", url: "http://directcarpromota.cafe24.com/", description: "차량 손해 시 경제적 부담을 덜어주는 자차 보험의 정확한 보장 범위와 자기부담금 설정, 그리고 가입 필수 여부를 확인하세요." },
+        { keyword: "자동차종합보험가격", url: "http://directcarpromotb.cafe24.com/", description: "의무 보험인 책임보험 외에 운전자에게 필요한 모든 보장(대인 II, 자차 등)이 포함된 종합보험의 최종 가격을 비교해 보세요." },
+        { keyword: "자동차보험 할부 / 자동차보험회사종류", url: "https://directcarpromotf.cafe24.com/", description: "보험료 분할 납부(할부) 옵션과 함께 국내에서 활동 중인 주요 자동차보험 회사들의 특징과 장점을 비교 분석해 드립니다." },
+        { keyword: "자동차보험회사순위", url: "http://directcarpromotg.cafe24.com/", description: "객관적인 지표를 통해 소비자가 직접 평가한 신뢰도 높은 자동차보험 회사들의 순위를 확인하고 가입 결정에 참고하세요." },
+        { keyword: "첫자동차보험료", url: "http://directcarpromoti.cafe24.com/", description: "처음 자동차보험에 가입하는 운전자들을 위해 가장 합리적인 첫 보험료를 설계하는 노하우와 절약 팁을 알려드립니다." },
+        { keyword: "차 보험료", url: "http://directcarpromotk.cafe24.com/", description: "내 차종과 운전 패턴에 따른 정확한 보험료를 산정하고, 불필요한 비용을 절감할 수 있는 맞춤형 보험 설계 서비스를 이용하세요." },
+        { keyword: "자동차보험가격비교", url: "http://directcarpromotl.cafe24.com/", description: "여러 보험사의 복잡한 가격표를 일일이 확인할 필요 없이, 신속하고 정확하게 비교하여 가장 저렴한 보험료를 찾아드립니다." },
+        { keyword: "자동차보험 신규 / 신규자동차보험", url: "http://directcarpromotm.cafe24.com/", description: "신규 가입 시 놓치기 쉬운 필수 정보와 더불어, 보험료 할인 혜택을 최대로 누릴 수 있는 신규 운전자를 위한 가이드입니다." },
+        { keyword: "자동차보험료싼곳", url: "http://directcarpromotn.cafe24.com/", description: "합리적인 가격에 최고의 보장을 제공하는 가성비 높은 자동차보험 상품들을 엄선하여 가장 저렴한 곳을 안내해 드립니다." },
+        { keyword: "인터넷자동차보험", url: "http://directcarpromoto.cafe24.com/", description: "인터넷으로 간편하게 가입하여 절약할 수 있는 보험료와 더불어, 24시간 언제든 이용 가능한 편리한 가입 시스템을 경험하세요." },
+        { keyword: "다이렉트자동차보험비교견적", url: "http://m.directcarpromotq.cafe24.com/", description: "다양한 다이렉트 보험사들의 실시간 견적을 비교하고 분석하여, 가장 저렴한 금액으로 원하는 보장 수준을 확보할 수 있습니다." },
+        { keyword: "자동차보험가족한정범위", url: "https://directcarpromots.cafe24.com/", description: "운전 가능 범위를 가족 한정으로 설정했을 때 포함되는 정확한 범위와 인적 사항 변경 시 필요한 절차를 확인해 보세요." },
+        { keyword: "자동차보험조회", url: "https://directcarpromotu.cafe24.com/", description: "현재 가입된 자동차보험의 보장 내용, 만기일, 특약 사항 등을 간편하게 조회하고 다음 갱신을 위한 정보를 미리 준비하세요." }, // Duplicate keyword, unique URL
+        { keyword: "자동차책임보험가격", url: "https://directcarpromotv.cafe24.com/", description: "의무적으로 가입해야 하는 책임보험의 최신 가격 정보와 함께, 보장 한도를 높여 더 안전하게 운전할 수 있는 방법을 제시합니다." },
+        { keyword: "자동차보험 다이렉트 비교", url: "https://directcarpromotw.cafe24.com/", description: "온라인으로 직접 가입하는 다이렉트 보험의 장점을 최대한 활용하여, 여러 회사의 상품을 객관적으로 비교 분석해 보세요." },
+        { keyword: "인터넷자동차보험료비교견적사이트", url: "https://directcarpromotx.cafe24.com/", description: "시간과 비용을 절약할 수 있도록 국내 모든 보험사의 인터넷 보험료를 한 곳에서 즉시 비교하고 견적을 받아볼 수 있습니다." },
+        { keyword: "20대자동차보험료", url: "https://directcarpromotz.cafe24.com/", description: "사회 초년생과 20대 운전자를 위한 합리적인 보험료 산출 방법과 저렴하게 가입할 수 있는 특별 할인 혜택을 안내받으세요." }, // Duplicate keyword, unique URL
+        { keyword: "장기렌트카", url: "https://saferentcarh.cafe24.com/", description: "초기 비용 부담 없이 원하는 차량을 장기간 이용할 수 있는 장기 렌터카의 장점과 월 대여료, 인수 조건 등을 상세히 확인하세요." }
+    ];
+
+    /**
+     * Array shuffle function (Fisher-Yates)
+     * @param {Array<Object>} array The array to shuffle
+     */
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    /**
+     * Renders the shuffled link data to the DOM.
+     */
+    function renderLinks() {
+        // 1. Shuffle the data array to ensure random order
+        shuffleArray(linksData);
+
+        const container = document.getElementById('links-container');
+        let htmlContent = '';
+
+        // 2. Generate HTML content for each item
+        linksData.forEach(item => {
+            // Note: The entire description sentence is wrapped in the anchor tag (full-link)
+            htmlContent += `
+                <div class="link-item bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="full-link">
+                        <h2 class="text-xl font-bold text-indigo-600 mb-2">${item.keyword}</h2>
+                        <p class="link-text text-gray-700 leading-relaxed">
+                            ${item.description}
+                        </p>
+                        <span class="inline-block mt-3 text-sm font-medium text-blue-500 hover:text-blue-700 transition duration-150">
+                            (자세히 보기 &rarr;)
+                        </span>
+                    </a>
+                </div>
+            `;
+        });
+
+        // 3. Inject content into the container
+        container.innerHTML = htmlContent;
+    }
+
+    // Run the rendering function when the window loads
+    window.onload = renderLinks;
+</script>
+
+</body>
+</html>
